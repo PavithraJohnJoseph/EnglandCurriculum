@@ -1,0 +1,22 @@
+Hello {{ username }},
+
+Unfortunately, your payment for {{ plan_name }} could not be processed.
+
+{% if error_message %}Error: {{ error_message }}
+{% endif %}
+To complete your purchase, please try again:
+{{ retry_link }}
+
+Troubleshooting tips:
+- Ensure your card details are correct
+- Check that your card hasn't expired
+- Try a different payment method
+- Contact your card issuer if issues persist
+
+Need help? Contact support@phonicsapp.com
+
+Best regards,
+The Year 1 Phonics Team
+
+---
+{{ site_name }} | support@phonicsapp.com

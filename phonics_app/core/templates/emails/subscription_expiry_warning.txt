@@ -1,0 +1,16 @@
+Hello {{ username }},
+
+Your {{ plan_name }} subscription expires in {{ days_until_expiry }} days!
+
+To continue enjoying uninterrupted access, please renew your subscription now:
+{{ renewal_link }}
+
+Without renewal, you'll lose access to your premium features on the expiry date.
+
+Don't let your progress stop - renew today!
+
+Best regards,
+The Year 1 Phonics Team
+
+---
+{{ site_name }} | support@phonicsapp.com

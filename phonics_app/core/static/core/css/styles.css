@@ -1,0 +1,596 @@
+/* ============================= */
+/* Reset some defaults          */
+/* ============================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================= */
+/* Body & General Layout         */
+/* ============================= */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fefaf6;
+    color: #333;
+	margin: 0;
+}
+
+/* ============================= */
+/* Top Bar                       */
+/* ============================= */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #E1A95F;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.menu-logo {
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 15px;
+    color: #B87333;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+}
+
+/* ============================= */
+/* Sidebar Menu                  */
+/* ============================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 220px;
+    height: 100%;
+    background-color: #E5E5E5;
+    padding-top: 70px;
+    transition: 0.3s;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1500;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #B87333;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #E1A95F;
+}
+
+/* ============================= */
+/* Main Content                  */
+/* ============================= */
+.content {
+    padding: 20px;
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.active + .content {
+    margin-left: 220px;
+}
+
+/* ============================= */
+/* Buttons / Controls            */
+/* ============================= */
+button, .btn {
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn.icon-btn {
+    background-color: #B87333;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.icon-btn:hover {
+    background-color: #E1A95F;
+    transform: scale(1.1);
+}
+
+/* ============================= */
+/* Paper Wrapper                 */
+/* ============================= */
+.paper-wrapper {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
+/* PDF Image */
+.paper-image-container {
+    margin-bottom: 20px;
+}
+
+.paper-image {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Words Section */
+.words-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.word-card {
+    background-color: #E5E5E5;
+    padding: 20px;
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #B87333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.word-card:hover {
+    transform: scale(1.05);
+    background-color: #FFEA70;
+}
+
+/* ============================= */
+/* Plan Options Section          */
+/* ============================= */
+.plan-options .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #E1A95F;
+    color: #B87333;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.plan-options .btn:hover {
+    background-color: #E5E5E5;
+}
+
+/* ============================= */
+/* Speech Cloud                  */
+/* ============================= */
+.speech-cloud {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    background: white;
+
+    display: inline-block;
+    width: auto;
+    max-width: 60%;
+
+    padding: 15px 20px;
+
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1.6;
+
+    border-radius: 38px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+    transition: all 0.3s ease;
+}
+
+/* Cloud puffs */
+.speech-cloud::before,
+.speech-cloud::after {
+    content: "";
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.speech-cloud::before {
+    width: 44px;
+    height: 44px;
+    top: -18px;
+    left: 18%;
+}
+
+.speech-cloud::after {
+    width: 54px;
+    height: 54px;
+    top: -24px;
+    right: 16%;
+}
+
+.speech-cloud.hidden {
+    display: none;
+}
+
+/* ============================= */
+/* Celebration Overlay           */
+/* ============================= */
+#celebration-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 3000;
+}
+/* ============================= */
+/* Play/Pause Icon Buttons       */
+/* ============================= */
+.controls {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.controls .btn.icon-btn {
+    background-color: #B87333;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.controls .btn.icon-btn:hover {
+    background-color: #E1A95F;
+    transform: scale(1.1);
+}
+
+/* Icons using Font Awesome (or you can use Unicode) */
+.controls .btn i {
+    pointer-events: none; /* prevents click blocking */
+}
+/* ============================= */
+/* Responsive                     */
+/* ============================= */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .sidebar.active + .content {
+        margin-left: 200px;
+    }
+
+    .hamburger {
+        font-size: 24px;
+    }
+
+    .logo {
+        height: 40px;
+    }
+
+    .word-card {
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    .btn.icon-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+    }
+
+    .speech-cloud {
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+}
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.paper-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.speech-cloud {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    background: white;
+    padding: 25px 35px;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1.6;
+    border-radius: 60px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    min-width: 220px;
+}
+
+.speech-cloud::before,
+.speech-cloud::after {
+    content: "";
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.speech-cloud::before {
+    width: 70px;
+    height: 70px;
+    top: -30px;
+    left: 25px;
+}
+
+.speech-cloud::after {
+    width: 90px;
+    height: 90px;
+    top: -40px;
+    right: 15px;
+}
+
+.highlight {
+    background-color: #ffeb3b;
+    padding: 4px 6px;
+    border-radius: 6px;
+}
+
+.hidden {
+    display: none;
+}
+/* ============================= */
+/* Auth (Login / Signup)         */
+/* ============================= */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 20px;
+}
+
+.auth-card {
+    background-color: #fff4e5;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ff7b54;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #ffecd2;
+    font-size: 16px;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #ff7b54;
+    color: white;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.auth-btn:hover {
+    background-color: #ff9671;
+}
+
+.auth-error {
+    background-color: #ffd3b6;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    color: #ff4c00;
+}
+
+.auth-footer {
+    margin-top: 15px;
+    font-size: 14px;
+}
+.auth-footer a {
+    color: #ff7b54;
+    text-decoration: none;
+}
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+/* ============================= */
+/* Auth Pages (Login/Sign-Up)    */
+/* ============================= */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.auth-card {
+    background-color: #ffecd2;
+    padding: 30px 40px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-card h2 
+	text-align: center;
+    margin-bottom: 25px;
+    color: #ff7b54;
+}
+
+.auth-card .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.auth-card label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ff7b54;
+    font-size: 16px;
+}
+
+.auth-card .btn {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #ff7b54;
+    color: white;
+    border-radius: 12px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.auth-card .btn:hover {
+    background-color: #ff9671;
+}
+
+.auth-footer {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    color: #ff7b54;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+}
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    background: #ff7b54;
+    color: white;
+    border: none;
+    font-size: 16px;
+}
+.dashboard {
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.card {
+    background: #ffb5a7;
+    padding: 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+
+.logout-btn {
+    background: #e74c3c;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    font-size: 18px;
+    display: block;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}

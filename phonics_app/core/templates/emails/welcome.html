@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background: white; }
+        .header { background: #3498db; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .button { display: inline-block; background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin: 10px 0; }
+        .footer { text-align: center; padding: 10px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Year 1 Phonics! 🎓</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{ username }},</p>
+            
+            <p>Thank you for creating an account. We're excited to help your child learn phonics with our interactive practice papers.</p>
+            
+            <p>Your account is now active and ready to use. To get started:</p>
+            <ol>
+                <li>Log in to your dashboard</li>
+                <li>Select a plan (free or paid options available)</li>
+                <li>Start practicing with Year 1 phonics materials</li>
+            </ol>
+            
+            <p><a href="{{ site_url }}/dashboard/" class="button">Visit Dashboard</a></p>
+            
+            <p>Questions or need help?<br>
+            Email: support@phonicsapp.com</p>
+            
+            <p>Happy learning!<br>
+            <strong>The Year 1 Phonics Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>{{ site_name }} | support@phonicsapp.com</p>
+        </div>
+    </div>
+</body>
+</html>

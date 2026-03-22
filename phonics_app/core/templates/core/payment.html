@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Payment - {{ plan.name }}{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px; max-width: 600px; margin: 0 auto;">
+    {% if error %}
+        <!-- Error message -->
+        <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <strong>Payment Error:</strong> {{ error }}
+        </div>
+        <a href="{% url 'core:plan_selection' %}" class="btn" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 5px; text-decoration: none;">
+            Back to Plans
+        </a>
+    {% elif plan.is_free %}
+        <!-- Free plan - just confirm -->
+        <h1 style="color: #27ae60; font-size: 2.5em; margin-bottom: 20px;">{{ plan.name }}</h1>
+        <p style="font-size: 1.2em; color: #555; margin-bottom: 30px;">
+            You're about to activate the free {{ plan.name|lower }}. This gives you access to 2012 practice papers.
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn" style="padding: 15px 40px; background-color: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer;">
+                Activate Free Plan
+            </button>
+        </form>
+    {% else %}
+        <!-- Paid plan - Stripe checkout -->
+        <h1 style="color: #3498db; font-size: 2.5em; margin-bottom: 20px;">{{ plan.name }}</h1>
+
+        {% if current_plan and current_plan.id == plan.id and next_upgrade_plan %}
+            <div style="background: #fff8e6; border: 1px solid #f39c12; color: #7a4b00; padding: 16px; border-radius: 10px; margin-bottom: 20px;">
+                <strong>You are already on {{ current_plan.name }}.</strong>
+                <div style="margin-top: 8px;">
+                    Ready for full access? Upgrade to {{ next_upgrade_plan.name }} now.
+                    <a href="{% url 'core:payment' next_upgrade_plan.id %}" style="margin-left: 8px; color: #d35400; font-weight: bold;">Upgrade to {{ next_upgrade_plan.name }}</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-bottom: 30px;">
+            <div style="font-size: 2em; font-weight: bold; color: #2c3e50; margin-bottom: 10px;">
+                £{{ plan.price }}/year
+            </div>
+            <p style="color: #666; margin-bottom: 20px;">Automatic renewal annually</p>
+            
+            <div style="text-align: left; color: #555; margin-bottom: 30px;">
+                <h3>What you get:</h3>
+                <ul>
+                    <li>✓ Access to {{ plan.access_years|length }} years of practice papers</li>
+                    <li>✓ All phonics exercises and audio guides</li>
+                    <li>✓ Progress tracking and reports</li>
+                    <li>✓ Auto-renewal each year</li>
+                </ul>
+            </div>
+
+            <p style="color: #999; font-size: 0.9em; margin-bottom: 20px;">
+                💳 Securely powered by Stripe
+            </p>
+        </div>
+
+        <form method="post" id="payment-form">
+            {% csrf_token %}
+            <button type="submit" id="checkout-btn" class="btn" style="padding: 15px 40px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer; width: 100%;">
+                Proceed to Secure Payment
+            </button>
+        </form>
+
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            document.getElementById('payment-form').addEventListener('submit', function(e) {
+                // Allow form to submit normally - will redirect to Stripe Checkout
+            });
+        </script>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+        <a href="{% url 'core:plan_selection' %}" style="color: #666; text-decoration: none;">← Back to plans</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "core/base.html" %}
+
+{% block title %}Verification Failed{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px; max-width: 600px; margin: 0 auto;">
+    <h1 style="color: #e74c3c; font-size: 2.5em; margin-bottom: 20px;">✗ Verification Failed</h1>
+    
+    <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+        {% if token_invalid %}
+            <p style="margin: 0;">
+                The verification link is invalid or has expired.
+            </p>
+        {% else %}
+            <p style="margin: 0;">
+                An error occurred during email verification.
+            </p>
+        {% endif %}
+    </div>
+    
+    <p style="color: #555; margin-bottom: 20px;">
+        {% if token_invalid %}
+            The link may have expired (links are valid for 24 hours).<br>
+            Please request a new verification link.
+        {% endif %}
+    </p>
+    
+    <p>
+        <a href="{% url 'core:signup' %}" style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            Sign Up Again
+        </a>
+        
+        <span style="margin: 0 10px;">
+            or
+        </span>
+        
+        <a href="{% url 'core:login' %}" style="display: inline-block; padding: 10px 20px; background-color: #95a5a6; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            Log In
+        </a>
+    </p>
+</div>
+{% endblock %}

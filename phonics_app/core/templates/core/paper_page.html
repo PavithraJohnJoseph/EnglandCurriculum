@@ -1,0 +1,689 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Practice Page{% endblock %}
+
+{% block content %}
+
+<style>
+.speech-cloud {
+    --bubble-border: #43aa8b;
+    color: {{ speech_color }};
+    border: 4px solid transparent;
+    background:
+        linear-gradient(180deg, #ffffff, #f8fbff) padding-box,
+        linear-gradient(120deg, var(--bubble-border), #ffffff) border-box;
+    border-radius: 46% 54% 48% 52% / 52% 44% 56% 48%;
+    padding: 20px 26px;
+    min-width: 210px;
+    max-width: 34%;
+    box-shadow: 0 12px 28px rgba(36, 54, 97, 0.2);
+    outline: 1px solid rgba(15, 23, 42, 0.08);
+    text-align: center;
+    z-index: 2;
+}
+
+.speech-cloud::before,
+.speech-cloud::after {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    border: 4px solid var(--bubble-border);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.speech-cloud::before {
+    width: 24px;
+    height: 24px;
+    top: auto;
+    bottom: -14px;
+    left: auto;
+    right: 14px;
+}
+
+.speech-cloud::after {
+    width: 14px;
+    height: 14px;
+    top: auto;
+    bottom: -24px;
+    left: auto;
+    right: 2px;
+}
+
+.speech-cloud .your-turn {
+    display: inline-block;
+    font-size: 1.05em;
+    font-weight: 900;
+    color: #ff5a5f;
+    letter-spacing: 0.4px;
+}
+
+/* 12 year classes: same shape, color follows celebration star palette */
+.speech-cloud.speech-cloud-2012 {
+    --bubble-border: #ffbe0b;
+}
+
+.speech-cloud.speech-cloud-2013 {
+    --bubble-border: #3a86ff;
+}
+
+.speech-cloud.speech-cloud-2014 {
+    --bubble-border: #43aa8b;
+}
+
+.speech-cloud.speech-cloud-2015 {
+    --bubble-border: #ff4d6d;
+}
+
+.speech-cloud.speech-cloud-2016 {
+    --bubble-border: #8338ec;
+}
+
+.speech-cloud.speech-cloud-2017 {
+    --bubble-border: #fb5607;
+}
+
+.speech-cloud.speech-cloud-2018 {
+    --bubble-border: #8ac926;
+}
+
+.speech-cloud.speech-cloud-2019 {
+    --bubble-border: #1982c4;
+}
+
+.speech-cloud.speech-cloud-2022 {
+    --bubble-border: #e63946;
+}
+
+.speech-cloud.speech-cloud-2023 {
+    --bubble-border: #f4a261;
+}
+
+.speech-cloud.speech-cloud-2024 {
+    --bubble-border: #b56576;
+}
+
+.speech-cloud.speech-cloud-2025 {
+    --bubble-border: #277da1;
+}
+
+.practice-stage {
+    position: relative;
+    padding: 26px 18px 34px;
+    border-radius: 24px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(255, 184, 108, 0.36), transparent 44%),
+        radial-gradient(circle at 84% 14%, rgba(142, 92, 255, 0.34), transparent 48%),
+        radial-gradient(circle at 72% 84%, rgba(58, 205, 196, 0.28), transparent 42%),
+        linear-gradient(140deg, #eef4ff, #f3eeff 48%, #e9fff8);
+    box-shadow: 0 18px 38px rgba(57, 58, 102, 0.16);
+}
+
+.practice-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.18));
+    pointer-events: none;
+}
+
+.paper-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.speech-cloud .highlight {
+    background-color: transparent;
+    color: {{ highlight_color }};
+    font-size: 1.15em;
+    font-weight: 900;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
+
+.control-btn {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 22px rgba(25, 35, 80, 0.25), inset 0 -8px 12px rgba(0, 0, 0, 0.18);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: "";
+    position: absolute;
+    inset: 5px 7px 30px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.38);
+    pointer-events: none;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 14px 28px rgba(25, 35, 80, 0.3), inset 0 -8px 12px rgba(0, 0, 0, 0.16);
+    filter: saturate(1.08);
+}
+
+.control-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.control-prev {
+    background: linear-gradient(145deg, #ff4d6d, #c9184a 55%, #7b2cbf);
+}
+
+.control-play {
+    background: linear-gradient(145deg, #ff9e00, #ff6d00 55%, #ff006e);
+}
+
+.control-pause {
+    background: linear-gradient(145deg, #4cc9f0, #4361ee 55%, #3a0ca3);
+}
+
+.control-next {
+    background: linear-gradient(145deg, #80ed99, #38b000 55%, #2a9d8f);
+}
+
+@media (max-width: 520px) {
+    .control-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.7rem;
+    }
+}
+</style>
+
+<div class="practice-stage">
+<div class="paper-wrapper">
+
+    <!-- IMAGE WRAPPER (Cloud ON image) -->
+    <div class="image-wrapper" style="position: relative; display: inline-block;">
+
+        <img src="{{ page.image.url }}" class="paper-image" alt="Phonics Page">
+
+        <!-- Speech Cloud ON IMAGE -->
+        <div id="speech-cloud" class="speech-cloud {% if paper.year == 2012 %}speech-cloud-2012{% elif paper.year == 2013 %}speech-cloud-2013{% elif paper.year == 2014 %}speech-cloud-2014{% elif paper.year == 2015 %}speech-cloud-2015{% elif paper.year == 2016 %}speech-cloud-2016{% elif paper.year == 2017 %}speech-cloud-2017{% elif paper.year == 2018 %}speech-cloud-2018{% elif paper.year == 2019 %}speech-cloud-2019{% elif paper.year == 2022 %}speech-cloud-2022{% elif paper.year == 2023 %}speech-cloud-2023{% elif paper.year == 2024 %}speech-cloud-2024{% elif paper.year == 2025 %}speech-cloud-2025{% endif %} hidden" style="position: absolute;">
+            <span id="speech-text"></span>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        {% if is_title %}
+        <a href="{% url 'core:year_selection' %}" class="control-btn control-prev" title="Back to Year Selection" aria-label="Back">&larr;</a>
+        {% elif prev_page %}
+        <a href="{% url 'core:paper_page' paper.id prev_page %}{% if auto_sequence %}?autoplay=1{% endif %}" class="control-btn control-prev" aria-label="Previous page">&larr;</a>
+        {% endif %}
+
+        <button id="play-btn" class="control-btn control-play" aria-label="Play">&#9658;</button>
+        <button id="pause-btn" class="control-btn control-pause" aria-label="Pause">&#10074;&#10074;</button>
+
+        {% if next_page %}
+        <a href="{% url 'core:paper_page' paper.id next_page %}{% if auto_sequence %}?autoplay=1{% endif %}" class="control-btn control-next" aria-label="Next page">&rarr;</a>
+        {% endif %}
+    </div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<!-- PASS WORD DATA TO JS -->
+<script>
+let wordsData = [
+    {% for word in words %}
+    {
+        type: "{{ word.type }}",
+        text: "{{ word.text|escapejs }}",
+        hint1: "{{ word.hint1|escapejs }}",
+        hint2: "{{ word.hint2|escapejs }}",
+        hint3: "{{ word.hint3|escapejs }}",
+        highlight1: "{{ word.highlight1|escapejs }}",
+        highlight2: "{{ word.highlight2|escapejs }}",
+        highlight3: "{{ word.highlight3|escapejs }}",
+        audio: "{% if word.audio_file %}{{ word.audio_file.url }}{% endif %}"
+    },
+    {% endfor %}
+];
+</script>
+
+<!-- Celebration -->
+{% if celebrate %}
+<script>
+function triggerCelebration() {
+    const bubble = document.getElementById("speech-cloud");
+    if (bubble) {
+        bubble.classList.add("hidden");
+        bubble.style.display = "none";
+    }
+
+    const audio = new Audio("{% static 'core/audio/applause.mp3' %}");
+    audio.play();
+    setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 3000); // Stop applause after 3 seconds
+
+    const duration = 5000;
+    const end = Date.now() + duration;
+
+    const yearThemes = {
+        2012: {
+            colors: ["#ffbe0b", "#ffd166", "#ff9f1c"],
+            spread: 84,
+            drift: 0.22,
+            gravity: 0.95,
+            scalar: 1.45,
+            shapes: ["star"],
+        },
+        2013: {
+            colors: ["#3a86ff", "#4361ee", "#4cc9f0"],
+            spread: 96,
+            drift: 0.3,
+            gravity: 1.08,
+            scalar: 1.35,
+            shapes: ["star"],
+        },
+        2014: {
+            colors: ["#2ec4b6", "#06d6a0", "#20bf55"],
+            spread: 65,
+            drift: 0.06,
+            gravity: 1.25,
+            scalar: 1.56,
+            shapes: ["star"],
+            originY: 0.12,
+        },
+        2015: {
+            colors: ["#ff006e", "#ff4d6d", "#ff5d8f"],
+            spread: 110,
+            drift: 0.24,
+            gravity: 0.84,
+            scalar: 1.2,
+            shapes: ["star"],
+            extraBurst: true,
+        },
+        2016: {
+            colors: ["#8338ec", "#7b2cbf", "#9d4edd"],
+            spread: 112,
+            drift: 0.12,
+            gravity: 0.74,
+            scalar: 1.62,
+            shapes: ["star"],
+        },
+        2017: {
+            colors: ["#fb5607", "#f3722c", "#f9844a"],
+            spread: 96,
+            drift: -0.2,
+            gravity: 0.98,
+            scalar: 1.42,
+            shapes: ["star"],
+        },
+        2018: {
+            colors: ["#8ac926", "#a7c957", "#6a994e"],
+            spread: 104,
+            drift: 0.16,
+            gravity: 0.95,
+            scalar: 1.34,
+            shapes: ["star"],
+        },
+        2019: {
+            colors: ["#1982c4", "#00a6fb", "#0582ca"],
+            spread: 118,
+            drift: 0.08,
+            gravity: 0.68,
+            scalar: 1.68,
+            shapes: ["star"],
+        },
+        2022: {
+            colors: ["#ff595e", "#e63946", "#d90429"],
+            spread: 90,
+            drift: -0.28,
+            gravity: 0.92,
+            scalar: 1.4,
+            shapes: ["star"],
+        },
+        2023: {
+            colors: ["#ffca3a", "#f4a261", "#e9c46a"],
+            spread: 100,
+            drift: 0.42,
+            gravity: 0.56,
+            scalar: 1.58,
+            shapes: ["star"],
+        },
+        2024: {
+            colors: ["#6d597a", "#b56576", "#e56b6f"],
+            spread: 92,
+            drift: -0.18,
+            gravity: 0.9,
+            scalar: 1.48,
+            shapes: ["star"],
+        },
+        2025: {
+            colors: ["#577590", "#277da1", "#4d908e"],
+            spread: 86,
+            drift: 0.14,
+            gravity: 0.62,
+            scalar: 1.7,
+            shapes: ["star"],
+        },
+    };
+
+    const fallbackTheme = {
+        colors: ["#8A2BE2", "#4B0082", "#1E90FF", "#2E8B57", "#FF8C00"],
+        spread: 90,
+        drift: 0.2,
+        gravity: 0.96,
+        scalar: 1.32,
+        shapes: ["star"],
+    };
+
+    function shuffleColors(colors) {
+        const shuffled = [...colors];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    const theme = yearThemes[{{ paper.year }}] || fallbackTheme;
+    const runColors = shuffleColors(theme.colors || []);
+    const resolvedShapes = theme.shapes || ["square", "circle"];
+    const sideOriginY = theme.originY || 0.7;
+    const centerOriginY = theme.originY ? Math.max(0.2, theme.originY + 0.1) : 0.55;
+
+    (function frame() {
+        confetti({
+            particleCount: 6,
+            angle: 60,
+            spread: theme.spread,
+            origin: { x: 0, y: sideOriginY },
+            colors: runColors,
+            drift: theme.drift,
+            gravity: theme.gravity,
+            scalar: theme.scalar,
+            shapes: resolvedShapes,
+        });
+
+        confetti({
+            particleCount: 6,
+            angle: 120,
+            spread: theme.spread,
+            origin: { x: 1, y: sideOriginY },
+            colors: runColors,
+            drift: -theme.drift,
+            gravity: theme.gravity,
+            scalar: theme.scalar,
+            shapes: resolvedShapes,
+        });
+
+        confetti({
+            particleCount: 10,
+            spread: theme.spread + 20,
+            origin: { y: centerOriginY },
+            colors: runColors,
+            gravity: theme.gravity,
+            scalar: theme.scalar,
+            shapes: resolvedShapes,
+        });
+
+        if (theme.extraBurst) {
+            confetti({
+                particleCount: 8,
+                spread: theme.spread + 35,
+                origin: { y: centerOriginY - 0.12 },
+                colors: runColors,
+                gravity: theme.gravity * 0.9,
+                scalar: Math.max(0.95, theme.scalar - 0.12),
+                shapes: resolvedShapes,
+            });
+        }
+
+        if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+
+    // After celebration, return to year selection for the next practice.
+    setTimeout(() => {
+        window.location.href = "{% url 'core:year_selection' %}";
+    }, duration + 500);
+}
+</script>
+{% endif %}
+
+<!-- MAIN SCRIPT -->
+<script>
+let currentIndex = 0;
+let currentAudio = null;
+let isPaused = false;
+let autoplayTimeout = null;
+let introUtterance = null;
+const autoSequence = {{ auto_sequence|yesno:"true,false" }};
+const nextPageUrl = "{{ next_page_url|default:'' }}";
+
+const speechCloud = document.getElementById("speech-cloud");
+const speechText = document.getElementById("speech-text");
+const speechPositions = [
+    { top: "16%", left: "22%" },
+    { top: "36%", left: "22%" },
+    { top: "60%", left: "22%" },
+    { top: "83%", left: "22%" },
+];
+
+function setSpeechPosition(index) {
+    if (!speechCloud) return;
+    const pos = speechPositions[index % speechPositions.length];
+    speechCloud.style.top = pos.top;
+    speechCloud.style.left = pos.left;
+    speechCloud.style.transform = "translate(-50%, -50%)";
+}
+
+function escapeRegExp(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Highlight substring segments inside a line (e.g. p in pig, ib in nib).
+function highlightSegment(text, segment) {
+    if (!segment || !text) return text || "";
+    const cleaned = segment.trim();
+    if (!cleaned) return text;
+    const pattern = new RegExp(`(${escapeRegExp(cleaned)})`, "ig");
+    return text.replace(pattern, '<span class="highlight">$1</span>');
+}
+
+// Display word in cloud
+function displayWord(word) {
+    speechCloud.classList.remove("hidden");
+    speechCloud.style.display = "";
+    speechText.innerHTML = "";
+
+    if (word.type === "real") {
+        let realWord = word.text || "";
+        if (realWord.trim() !== "") {
+            // Highlight entire real word
+            speechText.innerHTML = `<span class="highlight">${realWord}</span>`;
+        }
+    } else if (word.type === "pseudo") {
+        let html = "";
+        if (word.hint1) html += highlightSegment(word.hint1, word.highlight1) + "<br>";
+        if (word.hint2) html += highlightSegment(word.hint2, word.highlight2) + "<br>";
+        if (word.hint3) html += highlightSegment(word.hint3, word.highlight3);
+        speechText.innerHTML = html;
+    }
+
+    // Resize cloud width to fit text
+    const padding = 30;
+    speechCloud.style.width = speechText.scrollWidth + padding + "px";
+}
+
+function showYourTurnThenNext() {
+    if (isPaused) return;
+    speechCloud.classList.remove("hidden");
+    speechCloud.style.display = "";
+    speechText.innerHTML = '<span class="your-turn">Your turn</span>';
+    speechCloud.style.width = "auto";
+    autoplayTimeout = setTimeout(goToNextWord, 3000);
+}
+
+// Go to next word safely
+function goToNextWord() {
+    if (isPaused) return;
+    currentIndex++;
+    if (currentIndex >= wordsData.length) {
+        if (autoSequence && nextPageUrl) {
+            setTimeout(() => {
+                window.location.href = nextPageUrl;
+            }, 700);
+            return;
+        }
+        {% if celebrate %}
+        triggerCelebration();
+        {% endif %}
+        return;
+    }
+    playWord(currentIndex);
+}
+
+function playTitleIntro() {
+    if (isPaused) return;
+
+    speechCloud.classList.add("hidden");
+    speechText.innerHTML = "";
+
+    // Prefer browser TTS for dynamic year-specific intro.
+    if ("speechSynthesis" in window) {
+        try {
+            introUtterance = new SpeechSynthesisUtterance("Practise {{ paper.year }} words. Let's get started.");
+            introUtterance.rate = 0.92;
+            introUtterance.pitch = 1.0;
+            introUtterance.onend = () => {
+                if (autoSequence && nextPageUrl && !isPaused) {
+                    setTimeout(() => {
+                        window.location.href = nextPageUrl;
+                    }, 700);
+                }
+            };
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(introUtterance);
+            return;
+        } catch (err) {
+            console.log("Title intro TTS unavailable:", err);
+        }
+    }
+
+    // Fallback to existing static intro audio if TTS is not available.
+    currentAudio = new Audio("{% static 'core/audio/lets_get_started.mp3' %}");
+    currentAudio.play().catch(err => {
+        console.log("Title intro audio blocked:", err);
+    });
+    currentAudio.onended = () => {
+        if (autoSequence && nextPageUrl && !isPaused) {
+            setTimeout(() => {
+                window.location.href = nextPageUrl;
+            }, 700);
+        }
+    };
+}
+
+// Main play function
+function playWord(index) {
+    if (index >= wordsData.length) return;
+
+    let word = wordsData[index];
+    setSpeechPosition(index);
+    displayWord(word);
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+    }
+    if (autoplayTimeout) {
+        clearTimeout(autoplayTimeout);
+        autoplayTimeout = null;
+    }
+
+    currentAudio = word.audio ? new Audio(word.audio) : null;
+
+    if (!currentAudio) {
+        // If no generated file exists, speak the word text directly.
+        if ("speechSynthesis" in window && word.text) {
+            try {
+                const utterance = new SpeechSynthesisUtterance(word.text);
+                utterance.rate = 0.9;
+                utterance.pitch = 1.0;
+                utterance.onend = () => {
+                    showYourTurnThenNext();
+                };
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+                return;
+            } catch (err) {
+                console.log("Word TTS fallback failed:", err);
+            }
+        }
+        showYourTurnThenNext();
+        return;
+    }
+
+    currentAudio.play().catch(err => {
+        console.log("Audio autoplay blocked:", err);
+        showYourTurnThenNext();
+    });
+
+    currentAudio.onended = () => {
+        showYourTurnThenNext();
+    };
+}
+
+// PLAY BUTTON
+document.getElementById("play-btn").addEventListener("click", () => {
+    isPaused = false;
+    if (currentAudio && currentAudio.paused) {
+        currentAudio.play();
+        return;
+    }
+    currentIndex = 0;
+    playWord(currentIndex);
+});
+
+// PAUSE BUTTON
+document.getElementById("pause-btn").addEventListener("click", () => {
+    isPaused = true;
+    if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+    }
+    if (currentAudio) currentAudio.pause();
+    if (autoplayTimeout) clearTimeout(autoplayTimeout);
+});
+
+// AUTO PLAY on page load
+{% if audio_mode %}
+window.addEventListener("load", () => {
+    {% if is_title %}
+    setTimeout(() => playTitleIntro(), 500);
+    {% else %}
+    if (wordsData.length > 0) setTimeout(() => playWord(0), 500);
+    {% if celebrate %}
+    if (wordsData.length === 0) setTimeout(() => triggerCelebration(), 700);
+    {% endif %}
+    {% endif %}
+});
+{% endif %}
+
+</script>
+
+{% endblock %}

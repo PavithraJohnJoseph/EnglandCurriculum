@@ -1,0 +1,29 @@
+Hello {{ username }},
+
+Thank you for your purchase! Your subscription is now active.
+
+=== Subscription Details ===
+Plan: {{ plan_name }}
+Price: £{{ plan_price }}/year
+Access Years: {{ access_years }}
+
+Your subscription includes:
+✓ Full access to selected years of phonics practice papers
+✓ Progress tracking and reports
+✓ Audio support for all exercises
+✓ 365 days of continuous access
+
+Your subscription will automatically renew each year.
+
+To get started:
+1. Visit your dashboard: {{ dashboard_link }}
+2. Select a year to begin practicing
+3. Track your progress
+
+Questions? Contact: support@phonicsapp.com
+
+Best regards,
+The Year 1 Phonics Team
+
+---
+{{ site_name }} | support@phonicsapp.com

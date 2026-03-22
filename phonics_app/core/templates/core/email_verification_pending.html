@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+
+{% block title %}Verify Your Email{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px; max-width: 600px; margin: 0 auto;">
+    <h1 style="color: #3498db; font-size: 2.5em; margin-bottom: 20px;">Verify Your Email</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 14px 18px; border-radius: 8px; margin-bottom: 16px; {% if message.tags == 'success' %}background: #d4edda; border: 1px solid #c3e6cb; color: #155724;{% elif message.tags == 'error' %}background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;{% else %}background: #e2e3e5; border: 1px solid #d6d8db; color: #383d41;{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% if email_verified %}
+        <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+            <h3 style="margin-top: 0;">✓ Email Verified!</h3>
+            <p>Your email has been verified. You can now access all features.</p>
+        </div>
+        
+        <p><a href="{% url 'core:dashboard' %}" style="display: inline-block; padding: 10px 20px; background-color: #27ae60; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            Go to Dashboard
+        </a></p>
+    {% else %}
+        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-bottom: 30px;">
+            <p style="font-size: 1.1em; color: #555; margin-bottom: 20px;">
+                A verification link has been sent to:
+            </p>
+            <p style="font-size: 1.2em; font-weight: bold; color: #2c3e50; margin-bottom: 20px;">
+                {{ email }}
+            </p>
+            <p style="color: #666; margin-bottom: 20px;">
+                Click the link in the email to verify your account. The link expires in 24 hours.
+            </p>
+        </div>
+        
+        <p style="color: #666; margin-bottom: 20px;">
+            Didn't receive the email? Check your spam folder or try signing up again.
+        </p>
+
+        <form method="post" action="{% url 'core:resend_verification_email' %}" style="margin-bottom: 20px;">
+            {% csrf_token %}
+            <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                Resend Verification Email
+            </button>
+        </form>
+        
+        <p>
+            <a href="{% url 'core:dashboard' %}" style="display: inline-block; padding: 10px 20px; background-color: #f39c12; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                Go to Dashboard
+            </a>
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

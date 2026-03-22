@@ -1,0 +1,100 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Select a Plan{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px; max-width: 1000px; margin: 0 auto;">
+    <div style="margin-bottom: 30px; text-align: left;">
+        <a href="{% url 'core:dashboard' %}" style="color: #3498db; text-decoration: none; font-weight: bold; margin-right: 20px;">← Back to Dashboard</a>
+        {% if current_plan %}
+            <a href="{% url 'core:year_selection' %}" style="color: #27ae60; text-decoration: none; font-weight: bold;">View Current Plan</a>
+        {% endif %}
+    </div>
+    <h1 style="color: #2c3e50; font-size: 3em; margin-bottom: 20px;">Choose Your Plan</h1>
+    <p style="font-size: 1.2em; color: #555; margin-bottom: 50px;">
+        Select a plan to access phonics practice papers and start learning!
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
+        {% for plan in plans %}
+        <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 2px solid {% if plan.is_free %}#27ae60{% else %}#3498db{% endif %};">
+            <h2 style="color: {% if "gold" in plan.name|lower %}#f39c12{% elif plan.is_free %}#27ae60{% else %}#3498db{% endif %}; margin-bottom: 15px;">{{ plan.name }}</h2>
+            <div style="font-size: 2.5em; font-weight: bold; color: #2c3e50; margin-bottom: 20px;">
+                {% if "bronze" in plan.name|lower %}
+                    <span style="color: #27ae60;">FREE</span><br>
+                    <span style="text-decoration: line-through; color: #888; font-size: 0.7em;">£1.99</span>
+                {% elif "silver" in plan.name|lower %}
+                    <span style="color: #3498db;">£4.99</span><br>
+                    <span style="text-decoration: line-through; color: #888; font-size: 0.7em;">£9.99</span>
+                {% elif "gold" in plan.name|lower %}
+                    <span style="color: #f39c12;">£9.99</span><br>
+                    <span style="text-decoration: line-through; color: #888; font-size: 0.7em;">£19.99</span>
+                {% else %}
+                    {% if plan.is_free %}FREE{% else %}£{{ plan.price }}{% endif %}
+                {% endif %}
+            </div>
+            <ul style="text-align: left; color: #555; margin-bottom: 30px; list-style: none; padding: 0;">
+                {% if plan.is_free and "bronze" in plan.name|lower %}
+                <li><strong>Papers:</strong> 2012 Practice Paper</li>
+                <li><strong>Audio:</strong> Every real & pseudo word</li>
+                <li><strong>Helping Words:</strong> All pseudo words</li>
+                <li><strong>Best for:</strong> Light practice or trying the app</li>
+                {% elif "silver" in plan.name|lower %}
+                <li><strong>Papers:</strong> 2012, 2013, 2014, 2015 Practice Papers</li>
+                <li><strong>Audio:</strong>Every real & pseudo word</li>
+                <li><strong>Helping Words:</strong> All pseudo words</li>
+                <li><strong>Best for:</strong> Weekly practice and steady progress</li>
+                {% elif "gold" in plan.name|lower %}
+                <li><strong>Papers:</strong> All 12 practice papers</li>
+                <li><strong>Audio:</strong> All words across all 12 papers</li>
+                <li><strong>Helping Words:</strong> All pseudo words</li>
+                <li><strong>Difficulty:</strong> Progressive</li>
+                <li><strong>Best for:</strong> Complete preparation & mastery</li>
+                {% elif plan.is_free %}
+                <li><strong>Papers:</strong> 2012 Practice Paper</li>
+                <li><strong>Audio:</strong> Basic phonics exercises</li>
+                <li><strong>Helping Words:</strong> Word recognition practice</li>
+                {% else %}
+                <li><strong>Papers:</strong> {{ plan.access_years|length }} years of papers</li>
+                <li><strong>Audio:</strong> All phonics exercises</li>
+                <li><strong>Helping Words:</strong> Audio pronunciation guides</li>
+                <li><strong>Progress:</strong> Progress tracking</li>
+                {% endif %}
+            </ul>
+            <div style="display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+                {% if current_plan and current_plan.id == plan.id %}
+                <span style="display: inline-block; padding: 15px 30px; background: linear-gradient(90deg, #95a5a6 0%, #bdc3c7 100%); color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 8px rgba(149,165,166,0.15);">
+                    Current Plan
+                </span>
+                {% elif current_plan and plan.price > current_plan.price %}
+                {% if "silver" in plan.name|lower %}
+                <a href="{% url 'core:payment' plan.id %}" class="btn" style="display: inline-block; padding: 15px 30px; background: linear-gradient(90deg, #3498db 0%, #2980b9 100%); color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 8px rgba(52,152,219,0.15);">
+                    Upgrade to {{ plan.name }}
+                </a>
+                {% else %}
+                <a href="{% url 'core:payment' plan.id %}" class="btn" style="display: inline-block; padding: 15px 30px; background: linear-gradient(90deg, #f9a825 0%, #f39c12 100%); color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 8px rgba(249,168,37,0.15);">
+                    Upgrade to {{ plan.name }}
+                </a>
+                {% endif %}
+            {% elif current_plan and plan.price < current_plan.price %}
+                <span style="display: inline-block; padding: 15px 30px; background-color: #bdc3c7; color: #2c3e50; border-radius: 8px; font-size: 1.1em; font-weight: bold;">
+                    Included in your plan
+                </span>
+            {% else %}
+                <a href="{% url 'core:payment' plan.id %}" class="btn" style="display: inline-block; padding: 15px 30px; background-color: {% if plan.is_free %}#27ae60{% else %}#3498db{% endif %}; color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; font-weight: bold;">
+                    {% if plan.is_free %}Get Started Free{% else %}Select Plan{% endif %}
+                </a>
+            {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+        <p style="color: #666; margin: 0;">
+            <strong>Note:</strong> All plans include lifetime access to the selected content. No recurring payments.
+        </p>
+    </div>
+</div>
+{% endblock %}

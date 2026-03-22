@@ -1,0 +1,26 @@
+Django>=4.2
+stripe
+gunicorn
+Pillow
+
+# Database
+psycopg2-binary>=2.9.0
+dj-database-url>=1.0.0
+
+# Environment variables
+python-dotenv>=0.20.0
+python-decouple>=3.6
+
+# Testing
+pytest>=7.0
+pytest-django>=4.5
+pytest-cov>=3.0
+factory-boy>=3.2
+
+# Code quality
+black>=22.0
+flake8>=4.0
+isort>=5.10
+
+# Logging and monitoring
+python-json-logger>=2.0

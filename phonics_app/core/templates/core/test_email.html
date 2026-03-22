@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block title %}Test Email{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2 class="auth-title">Test Email</h2>
+        {% if success %}
+            <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                ✓ {{ message }}
+            </div>
+            <p>Check your email to verify the message arrived. This confirms password reset emails will work correctly.</p>
+        {% else %}
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                ✗ {{ message }}
+            </div>
+            <p>Please check your email configuration in settings.py or environment variables.</p>
+        {% endif %}
+        <a href="{% url 'core:dashboard' %}" class="btn" style="display: inline-block; margin-top: 20px;">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

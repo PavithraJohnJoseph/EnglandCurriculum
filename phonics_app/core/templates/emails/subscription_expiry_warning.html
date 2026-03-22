@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background: white; }
+        .header { background: #f39c12; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .alert { background: #fff3cd; border-left: 4px solid #f39c12; padding: 15px; margin: 15px 0; }
+        .button { display: inline-block; background: #27ae60; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .footer { text-align: center; padding: 10px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⏰ Subscription Expiring Soon</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{ username }},</p>
+            
+            <div class="alert">
+                <p><strong>Your {{ plan_name }} subscription expires in {{ days_until_expiry }} days!</strong></p>
+            </div>
+            
+            <p>To continue enjoying uninterrupted access and your progress tracking, please renew your subscription now.</p>
+            
+            <p><a href="{{ renewal_link }}" class="button">Renew Subscription</a></p>
+            
+            <p><em>Without renewal, you'll lose access to your premium features on the expiry date.</em></p>
+            
+            <p>Don't let your progress stop - renew today!</p>
+            
+            <p>Best regards,<br>
+            <strong>The Year 1 Phonics Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>{{ site_name }} | support@phonicsapp.com</p>
+        </div>
+    </div>
+</body>
+</html>

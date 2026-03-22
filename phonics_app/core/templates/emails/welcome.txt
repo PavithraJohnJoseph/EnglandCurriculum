@@ -1,0 +1,23 @@
+Hello {{ username }},
+
+Welcome to Year 1 Phonics! 🎓
+
+Thank you for creating an account. We're excited to help your child learn phonics with our interactive practice papers.
+
+Your account is now active and ready to use. To get started:
+
+1. Log in to your dashboard
+2. Select a plan (free or paid options available)
+3. Start practicing with Year 1 phonics materials
+
+Questions or need help?
+- Visit: {{ site_name }}
+- Email: support@phonicsapp.com
+
+Happy learning!
+
+Best regards,
+The Year 1 Phonics Team
+
+---
+{{ site_name }} | support@phonicsapp.com

@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Welcome to Year 1 Phonics{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px; max-width: 800px; margin: 0 auto;">
+    <h1 style="color: #2c3e50; font-size: 3em; margin-bottom: 20px;">Welcome to Year 1 Phonics</h1>
+
+    <p style="font-size: 1.2em; color: #555; margin-bottom: 40px; line-height: 1.6;">
+        Master phonics with our comprehensive Year 1 phonics program. Learn letter sounds,
+        build words, and improve your reading skills through interactive exercises and practice papers.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px;">
+        {% if user.is_authenticated %}
+            <a href="{% url 'core:dashboard' %}" class="btn-primary" style="display: inline-block; padding: 15px 30px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold;">
+                Go to Dashboard
+            </a>
+        {% else %}
+            <a href="{% url 'core:login' %}" class="btn-primary" style="display: inline-block; padding: 15px 30px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold;">
+                Login
+            </a>
+            <a href="{% url 'core:signup' %}" class="btn-secondary" style="display: inline-block; padding: 15px 30px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold;">
+                Sign Up
+            </a>
+        {% endif %}
+    </div>
+
+    <div style="background-color: #f8f9fa; padding: 30px; border-radius: 10px; margin-top: 40px;">
+        <h2 style="color: #2c3e50; margin-bottom: 20px;">What You'll Learn</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left;">
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #3498db; margin-top: 0;">Letter Sounds</h3>
+                <p>Master individual letter sounds and their combinations to build a strong foundation in phonics.</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #3498db; margin-top: 0;">Word Building</h3>
+                <p>Learn to blend sounds together to form words and improve your reading fluency.</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #3498db; margin-top: 0;">Practice Papers</h3>
+                <p>Complete interactive practice papers from 2012-2025 to reinforce your learning.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

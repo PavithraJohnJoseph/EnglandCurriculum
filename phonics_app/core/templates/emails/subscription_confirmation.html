@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background: white; }
+        .header { background: #27ae60; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .details { background: white; padding: 15px; border-left: 4px solid #27ae60; margin: 15px 0; }
+        .features { list-style: none; padding: 0; }
+        .features li { padding: 5px 0; }
+        .button { display: inline-block; background: #3498db; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .footer { text-align: center; padding: 10px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✓ Subscription Confirmed!</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{ username }},</p>
+            
+            <p>Thank you for your purchase! Your subscription is now active and ready to use.</p>
+            
+            <div class="details">
+                <h3 style="margin-top: 0;">Subscription Details</h3>
+                <p><strong>Plan:</strong> {{ plan_name }}<br>
+                <strong>Price:</strong> £{{ plan_price }}/year<br>
+                <strong>Access Years:</strong> {{ access_years }}</p>
+            </div>
+            
+            <p><strong>Your subscription includes:</strong></p>
+            <ul class="features">
+                <li>✓ Full access to selected years of phonics practice papers</li>
+                <li>✓ Progress tracking and reports</li>
+                <li>✓ Audio support for all exercises</li>
+                <li>✓ 365 days of continuous access</li>
+            </ul>
+            
+            <p><em>Your subscription will automatically renew each year.</em></p>
+            
+            <p><a href="{{ dashboard_link }}" class="button">Visit Dashboard</a></p>
+            
+            <p>Best regards,<br>
+            <strong>The Year 1 Phonics Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>{{ site_name }} | support@phonicsapp.com</p>
+        </div>
+    </div>
+</body>
+</html>
